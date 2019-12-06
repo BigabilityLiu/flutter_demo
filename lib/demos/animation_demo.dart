@@ -229,10 +229,7 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
       },
       onPanUpdate: (details) {
         setState(() {
-          print("delta = ${details.delta.dx}, ${details.delta.dy}");
-          print("localPosition = ${details.localPosition.dx}, ${details.localPosition.dy}");
-          print("globalPosition = ${details.globalPosition.dx}, ${details.globalPosition.dy}");
-          _dragAligment += Alignment(
+            _dragAligment += Alignment(
             details.delta.dx / (size.width / 2),
             details.delta.dy / (size.height / 2)
           );

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 
 class AnimationDemo extends StatefulWidget{
   @override
@@ -17,6 +18,30 @@ class _AnimationDemoState extends State<AnimationDemo>{
   Color _color = Colors.green;
   BorderRadiusGeometry _borderRadius = BorderRadius.circular(8);
 
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Page2(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child){
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+        var tween = Tween(begin: begin, end: end);
+        // 方法1
+        // var offsetAnimation = animation.drive(tween.chain(CurveTween(curve: curve)));
+        // 方法2
+        var curvedAnimation = CurvedAnimation(
+          parent: animation,
+          curve: curve
+        );
+        var offsetAnimation = tween.animate(curvedAnimation);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
+  }
   Widget _getCurrentAnimationWidget() {
     switch (_animationType) {
       case 0:
@@ -48,6 +73,8 @@ class _AnimationDemoState extends State<AnimationDemo>{
             size: 128,
           ),
         );
+      case 3:
+        return Text("跳转页面");
       default:
          return null;
     }
@@ -92,6 +119,15 @@ class _AnimationDemoState extends State<AnimationDemo>{
                 });
                 Navigator.of(context).pop();
               },
+            ),
+            ListTile(
+              title: Text('页面过渡动画'),
+              onTap: (){
+                setState(() {
+                  _animationType = 3;
+                });
+                Navigator.of(context).pop();
+              },
             )
           ],
         ),
@@ -102,19 +138,35 @@ class _AnimationDemoState extends State<AnimationDemo>{
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.play_arrow),
         onPressed: () {
-          setState(() {
-            _visiable = !_visiable;
+          switch (_animationType) {
+            case 0:
+              setState(() {
 
-            final random = Random();
-            _width = random.nextInt(300).toDouble() + 50.0;
-            _height = random.nextInt(300).toDouble() + 50.0;
-            _color = Color.fromRGBO(
-              random.nextInt(256), 
-              random.nextInt(256), 
-              random.nextInt(256), 
-              1);
-            _borderRadius = BorderRadius.circular(random.nextInt(100).toDouble());
-          });
+                final random = Random();
+                _width = random.nextInt(300).toDouble() + 50.0;
+                _height = random.nextInt(300).toDouble() + 50.0;
+                _color = Color.fromRGBO(
+                  random.nextInt(256), 
+                  random.nextInt(256), 
+                  random.nextInt(256), 
+                  1);
+                _borderRadius = BorderRadius.circular(random.nextInt(100).toDouble());
+              });
+              break;
+            case 1:
+              setState(() {
+                _visiable = !_visiable;
+              });
+              break;
+            case 2:
+              break;
+            case 3:
+              Navigator.of(context).push(_createRoute());
+              break;
+            default:
+              return ;
+          }
+          
         },
       ),
     );
@@ -129,24 +181,38 @@ class DraggableCard extends StatefulWidget  {
   @override
   _DraggableCardState createState() => _DraggableCardState();
 }
-
 class _DraggableCardState extends State<DraggableCard> with SingleTickerProviderStateMixin{
   AnimationController _controller;
   Alignment _dragAligment = Alignment.center;
   Animation<Alignment> _animation;
-  void _runAnimation() {
+  void _runAnimation(Offset pixelsPerSecond, Size size) {
     _animation = _controller.drive(
       AlignmentTween(
         begin: _dragAligment,
         end: Alignment.center,
       )
     );
-    _controller.reset();
-    _controller.forward();
+    final unitsPerSecondX = pixelsPerSecond.dx / size.width;
+    final unitsPerSecondY = pixelsPerSecond.dy / size.height;
+    final unitsPerSecond = Offset(unitsPerSecondX, unitsPerSecondY);
+    final unitVelocity = unitsPerSecond.distance;
+
+    const spring = SpringDescription(
+      mass: 30,
+      stiffness: 1,
+      damping: 1,
+    );
+    final simulation = SpringSimulation(spring, 0, 1, -unitVelocity);
+    _controller.animateWith(simulation);
   }
   @override
   void initState() {
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _controller = AnimationController(vsync: this);
+    _controller.addListener(() {
+      setState(() {
+        _dragAligment = _animation.value;
+      });
+    });
     super.initState();
   }
   @override
@@ -158,21 +224,39 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onPanDown: (deetails) {},
+      onPanDown: (deetails) {
+        _controller.stop();
+      },
       onPanUpdate: (details) {
         setState(() {
+          print("delta = ${details.delta.dx}, ${details.delta.dy}");
+          print("localPosition = ${details.localPosition.dx}, ${details.localPosition.dy}");
+          print("globalPosition = ${details.globalPosition.dx}, ${details.globalPosition.dy}");
           _dragAligment += Alignment(
             details.delta.dx / (size.width / 2),
             details.delta.dy / (size.height / 2)
           );
         });
       },
-      onPanEnd: (details) {},
+      onPanEnd: (details) {
+        _runAnimation(details.velocity.pixelsPerSecond, size);
+      },
       child: Align(
+        alignment: _dragAligment,
         child: Card(
           child: widget.child,
         ),
       ),
+    );
+  }
+}
+
+class Page2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(child: Text("Page 2"),),
     );
   }
 }

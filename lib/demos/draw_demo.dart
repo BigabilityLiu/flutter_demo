@@ -25,7 +25,6 @@ class SignatureState extends State<Signature> {
   List<Offset> _points = <Offset>[];
 
   Widget build(BuildContext context) {
-    // TODO 因为加了appBar，所有会有y轴的偏差
     return new Scaffold(
         appBar: AppBar(
           title: Text("Draw App"),
@@ -34,12 +33,9 @@ class SignatureState extends State<Signature> {
           children: [
             GestureDetector(
               onPanUpdate: (DragUpdateDetails details) {
-                RenderBox referenceBox = context.findRenderObject();
-                Offset localPosition =
-                referenceBox.globalToLocal(details.globalPosition);
 
                 setState(() {
-                  _points = new List.from(_points)..add(localPosition);
+                  _points = new List.from(_points)..add(details.localPosition);
                 });
               },
               onPanEnd: (DragEndDetails details) => _points.add(null),

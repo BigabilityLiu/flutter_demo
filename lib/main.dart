@@ -11,6 +11,7 @@ import 'demos/provider_demo.dart';
 import 'demos/battery_demo.dart';
 import 'demos/draw_demo.dart';
 import 'demos/animation_demo.dart';
+import 'demos/tabController_demo.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           '/battery_demo': (BuildContext context) => new BatteryPage(),
           '/draw_demo': (BuildContext context) => new Signature(),
           '/animation_demo': (BuildContext context) => new AnimationDemo(),
+          '/tab_demo': (BuildContext context) => new TabBarDemo(),
         },
         home: Builder(
           builder: (context) => Scaffold(
@@ -60,7 +62,12 @@ class MyApp extends StatelessWidget {
                     onTap: () => Navigator.of(context).pushNamed('/draw_demo')),
                 ListTile(
                     title: Text("Animation"),
-                    onTap: () => Navigator.of(context).pushNamed('/animation_demo')),
+                    onTap: () => Navigator.of(context).pushNamed('/animation_demo')
+                    ),
+                ListTile(
+                    title: Text("TabBar Controller"),
+                    onTap: () => Navigator.of(context).pushNamed('/tab_demo')
+                    ),
               ],
             ),
           ),

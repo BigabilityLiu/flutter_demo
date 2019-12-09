@@ -11,6 +11,7 @@ class _MyFormState extends State<MyForm> {
   final myController = TextEditingController();
 
   String _errorText;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -26,23 +27,59 @@ class _MyFormState extends State<MyForm> {
       appBar: AppBar(
         title: Text('Retrieve Text Inputa'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(hintText: "This is a hint", errorText: _getErrorText()),
-          controller: myController,
-          onSubmitted: (String text){
-            if (isEmail(text)){
-              setState(() {
-                _errorText = null;
-              });
-            }else{
-              setState(() {
-                _errorText = "Incorrect email.";
-              });
-            }
-          },
+      body: Builder(
+        builder: (BuildContext context) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(hintText: '请输入帐号'),
+                onChanged: (text) {
+                  print("First text field: $text");
+                },
+              ),
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(hintText: "请输入邮箱", errorText: _getErrorText()),
+                controller: myController,
+                onSubmitted: (String text){
+                  if (isEmail(text)){
+                    setState(() {
+                      _errorText = null;
+                    });
+                  }else{
+                    setState(() {
+                      _errorText = "邮箱格式不正确。";
+                    });
+                  }
+                },
+              ),
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  decoration: InputDecoration(hintText: "请输入另一个邮箱"),
+                  validator: (value) {
+                    if (isEmail(value)){
+                      return "邮箱格式不正确。";
+                    }else{
+                      return null;
+                    }
+                  },
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: RaisedButton(
+                  child: Text('检验第二个邮箱'),
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('第二个邮箱错误'),));
+                    }
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

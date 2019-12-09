@@ -19,8 +19,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Demos',
-        theme: new ThemeData(
-            primaryColor: Colors.brown,
+        theme: ThemeData(
+          // Define the default brightness and colors.
+          brightness: Brightness.dark,
+          primaryColor: Colors.lightBlue[800],
+          accentColor: Colors.green[600],
+
+          // Define the default TextTheme. Use this to specify the default
+          // text styling for headlines, titles, bodies of text, and more.
+          textTheme: TextTheme(
+            headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          ),
         ),
         routes: <String, WidgetBuilder>{
           '/list_demo': (BuildContext context) => new RandomWords(),

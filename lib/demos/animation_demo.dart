@@ -136,6 +136,7 @@ class _AnimationDemoState extends State<AnimationDemo>{
         child: _getCurrentAnimationWidget()
       ),
       floatingActionButton: FloatingActionButton(
+        // backgroundColor: Theme.of(context).accentColor,
         child: Icon(Icons.play_arrow),
         onPressed: () {
           switch (_animationType) {
@@ -166,7 +167,6 @@ class _AnimationDemoState extends State<AnimationDemo>{
             default:
               return ;
           }
-          
         },
       ),
     );
@@ -253,7 +253,7 @@ class Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(child: Text("Page 2"),),
+      body: Center(child: Text("Page 2", style: Theme.of(context).textTheme.title),),
     );
   }
 }

@@ -24,7 +24,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+        widgets = json.decode(response.body);
     });
   }
   showLoadingDialog() {

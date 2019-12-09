@@ -13,14 +13,14 @@ import 'demos/draw_demo.dart';
 import 'demos/animation_demo.dart';
 import 'demos/tabController_demo.dart';
 import 'demos/gridview_demo.dart';
+import 'demos/custom_scrollview_demo.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   testFunction() {
-    var name = 'liu'; 
-    // equal to 
+    var name = 'liu';
+    // equal to
     // String name = 'liu';
     // name = 1;// error
     name = 'dong';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     age = false;
     Object age1 = 25;
     age1 = false;
-     
+
     final widget1 = Text('widget1');
     const widget2 = Text('widget1');
     // widget1 = Text('2'); // error
@@ -47,15 +47,14 @@ class MyApp extends StatelessWidget {
     baz.add(1);
 
     var c = 2;
-    var a = [c,2,3];
+    var a = [c, 2, 3];
     // var a = const [c,2,3]; //ERROR, 集合元素必须是编译时常数。
 
 //  声明类成员变量时，const变量必须同时被声明为static的。
 //  const变量，变量命名方式应使用全大写加下划线。
 //  const变量只能在定义的时候初始化。
 //  final变量可以在构造函数参数列表或者初始化列表中初始化。
-//  final非常量，但在声明时就能确定值，并且不希望被改变	
-
+//  final非常量，但在声明时就能确定值，并且不希望被改变
   }
 
   @override
@@ -78,6 +77,8 @@ class MyApp extends StatelessWidget {
         ),
         routes: <String, WidgetBuilder>{
           '/list_demo': (BuildContext context) => new RandomWords(),
+          '/custom_scrollview_demo': (BuildContext context) =>
+              new CustomScrollViewDemo(),
           '/form_demo': (BuildContext context) => new MyForm(),
           '/http_demo': (BuildContext context) => new SampleAppPage(),
           '/provider_demo': (BuildContext context) => new ProviderDemoPage(),
@@ -98,6 +99,10 @@ class MyApp extends StatelessWidget {
                     title: Text("List"),
                     onTap: () => Navigator.of(context).pushNamed('/list_demo')),
                 ListTile(
+                    title: Text("Custom scrollView "),
+                    onTap: () => Navigator.of(context)
+                        .pushNamed('/custom_scrollview_demo')),
+                ListTile(
                     title: Text("Form"),
                     onTap: () => Navigator.of(context).pushNamed('/form_demo')),
                 ListTile(
@@ -116,16 +121,15 @@ class MyApp extends StatelessWidget {
                     onTap: () => Navigator.of(context).pushNamed('/draw_demo')),
                 ListTile(
                     title: Text("Animation"),
-                    onTap: () => Navigator.of(context).pushNamed('/animation_demo')
-                    ),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed('/animation_demo')),
                 ListTile(
                     title: Text("TabBar Controller"),
-                    onTap: () => Navigator.of(context).pushNamed('/tab_demo')
-                    ),
+                    onTap: () => Navigator.of(context).pushNamed('/tab_demo')),
                 ListTile(
-                  title: Text("GridView & Orientation"),
-                  onTap: () => Navigator.of(context).pushNamed('/gridview_demo')
-                ),
+                    title: Text("GridView & Orientation"),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed('/gridview_demo')),
               ],
             ),
           ),

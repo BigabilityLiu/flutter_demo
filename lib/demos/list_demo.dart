@@ -37,7 +37,7 @@ class RandomWordsState extends State<RandomWords> {
   }
 //  int getLength() => _suggestions.length;
 
-  Widget _buildSuggestions() {
+  Widget _buildSuggestions(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
@@ -46,12 +46,12 @@ class RandomWordsState extends State<RandomWords> {
         if (index >= _suggestions.length) {
           _suggestions.addAll(generateWordPairs().take(10));
         }
-        return _buildRow(_suggestions[index]);
+        return _buildRow(_suggestions[index], context);
       },
     );
   }
 
-  Widget _buildRow(WordPair pair) {
+  Widget _buildRow(WordPair pair,BuildContext context) {
     final bool alreadySaved = _saved.contains(pair);
     return ListTile(
       title: Text(
@@ -71,12 +71,31 @@ class RandomWordsState extends State<RandomWords> {
             _saved.add(pair);
           }
         });
+        
+        Scaffold.of(context).removeCurrentSnackBar();
+         final snackBar = SnackBar(
+          content: Text('${alreadySaved ? "移除" : "保存"}成功'),
+          action: SnackBarAction(
+            label: '撤销',
+            onPressed: () {
+              setState(() {
+                if (alreadySaved){
+                  _saved.add(pair);
+                }else{
+                  _saved.remove(pair);
+                }
+              });
+            },
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
@@ -84,7 +103,9 @@ class RandomWordsState extends State<RandomWords> {
           new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved)
         ],
       ),
-      body: _buildSuggestions(),
+      body: Builder(
+        builder: (context) => _buildSuggestions(context),
+      ) ,
     );
   }
 }

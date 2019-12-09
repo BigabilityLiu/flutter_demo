@@ -11,6 +11,7 @@ import 'demos/provider_demo.dart';
 import 'demos/battery_demo.dart';
 import 'demos/draw_demo.dart';
 import 'demos/animation_demo.dart';
+import 'demos/tabController_demo.dart';
 import 'demos/gridview_demo.dart';
 
 void main() => runApp(MyApp());
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
           '/battery_demo': (BuildContext context) => new BatteryPage(),
           '/draw_demo': (BuildContext context) => new Signature(),
           '/animation_demo': (BuildContext context) => new AnimationDemo(),
+          '/tab_demo': (BuildContext context) => new TabBarDemo(),
           '/gridview_demo': (BuildContext context) => new GridviewDemo(),
         },
         home: Builder(
@@ -72,9 +74,13 @@ class MyApp extends StatelessWidget {
                     title: Text("Draw"),
                     onTap: () => Navigator.of(context).pushNamed('/draw_demo')),
                 ListTile(
-                  title: Text("Animation"),
-                  onTap: () => Navigator.of(context).pushNamed('/animation_demo')
-                ),
+                    title: Text("Animation"),
+                    onTap: () => Navigator.of(context).pushNamed('/animation_demo')
+                    ),
+                ListTile(
+                    title: Text("TabBar Controller"),
+                    onTap: () => Navigator.of(context).pushNamed('/tab_demo')
+                    ),
                 ListTile(
                   title: Text("GridView & Orientation"),
                   onTap: () => Navigator.of(context).pushNamed('/gridview_demo')

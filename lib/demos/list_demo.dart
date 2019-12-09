@@ -71,7 +71,6 @@ class RandomWordsState extends State<RandomWords> {
             _saved.add(pair);
           }
         });
-        
         Scaffold.of(context).removeCurrentSnackBar();
          final snackBar = SnackBar(
           content: Text('${alreadySaved ? "移除" : "保存"}成功'),

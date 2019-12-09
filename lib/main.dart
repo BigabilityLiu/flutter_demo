@@ -12,6 +12,7 @@ import 'demos/battery_demo.dart';
 import 'demos/draw_demo.dart';
 import 'demos/animation_demo.dart';
 import 'demos/tabController_demo.dart';
+import 'demos/gridview_demo.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,8 +21,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Demos',
-        theme: new ThemeData(
-            primaryColor: Colors.brown,
+        theme: ThemeData(
+          // Define the default brightness and colors.
+          brightness: Brightness.dark,
+          primaryColor: Colors.lightBlue[800],
+          accentColor: Colors.green[600],
+
+          // Define the default TextTheme. Use this to specify the default
+          // text styling for headlines, titles, bodies of text, and more.
+          textTheme: TextTheme(
+            headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          ),
         ),
         routes: <String, WidgetBuilder>{
           '/list_demo': (BuildContext context) => new RandomWords(),
@@ -32,6 +44,7 @@ class MyApp extends StatelessWidget {
           '/draw_demo': (BuildContext context) => new Signature(),
           '/animation_demo': (BuildContext context) => new AnimationDemo(),
           '/tab_demo': (BuildContext context) => new TabBarDemo(),
+          '/gridview_demo': (BuildContext context) => new GridviewDemo(),
         },
         home: Builder(
           builder: (context) => Scaffold(
@@ -50,11 +63,11 @@ class MyApp extends StatelessWidget {
                     title: Text("Networking"),
                     onTap: () => Navigator.of(context).pushNamed('/http_demo')),
                 ListTile(
-                    title: Text("Provider"),
+                    title: Text("Provider数据传递"),
                     onTap: () =>
                         Navigator.of(context).pushNamed('/provider_demo')),
                 ListTile(
-                    title: Text("Battery"),
+                    title: Text("Battery获取平台API信息"),
                     onTap: () =>
                         Navigator.of(context).pushNamed('/battery_demo')),
                 ListTile(
@@ -68,6 +81,10 @@ class MyApp extends StatelessWidget {
                     title: Text("TabBar Controller"),
                     onTap: () => Navigator.of(context).pushNamed('/tab_demo')
                     ),
+                ListTile(
+                  title: Text("GridView & Orientation"),
+                  onTap: () => Navigator.of(context).pushNamed('/gridview_demo')
+                ),
               ],
             ),
           ),

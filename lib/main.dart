@@ -11,6 +11,7 @@ import 'demos/provider_demo.dart';
 import 'demos/battery_demo.dart';
 import 'demos/draw_demo.dart';
 import 'demos/animation_demo.dart';
+import 'demos/gridview_demo.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           '/battery_demo': (BuildContext context) => new BatteryPage(),
           '/draw_demo': (BuildContext context) => new Signature(),
           '/animation_demo': (BuildContext context) => new AnimationDemo(),
+          '/gridview_demo': (BuildContext context) => new GridviewDemo(),
         },
         home: Builder(
           builder: (context) => Scaffold(
@@ -59,19 +61,24 @@ class MyApp extends StatelessWidget {
                     title: Text("Networking"),
                     onTap: () => Navigator.of(context).pushNamed('/http_demo')),
                 ListTile(
-                    title: Text("Provider"),
+                    title: Text("Provider数据传递"),
                     onTap: () =>
                         Navigator.of(context).pushNamed('/provider_demo')),
                 ListTile(
-                    title: Text("Battery"),
+                    title: Text("Battery获取平台API信息"),
                     onTap: () =>
                         Navigator.of(context).pushNamed('/battery_demo')),
                 ListTile(
                     title: Text("Draw"),
                     onTap: () => Navigator.of(context).pushNamed('/draw_demo')),
                 ListTile(
-                    title: Text("Animation"),
-                    onTap: () => Navigator.of(context).pushNamed('/animation_demo')),
+                  title: Text("Animation"),
+                  onTap: () => Navigator.of(context).pushNamed('/animation_demo')
+                ),
+                ListTile(
+                  title: Text("GridView & Orientation"),
+                  onTap: () => Navigator.of(context).pushNamed('/gridview_demo')
+                ),
               ],
             ),
           ),

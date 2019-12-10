@@ -9,7 +9,7 @@ class SharedPreferencesDemo extends StatefulWidget {
 
 class _SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
   int _counter = 0;
-  final String COUNTER_KEY = 'SharedPreferencesDemoState_Counter';
+  static const String COUNTER_KEY = 'SharedPreferencesDemoState_Counter';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

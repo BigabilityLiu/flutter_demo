@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'demos/list_demo.dart';
 import 'demos/form_demo.dart';
@@ -17,6 +16,7 @@ import 'demos/gridview_demo.dart';
 import 'demos/custom_scrollview_demo.dart';
 import 'demos/websocket_demo.dart';
 import 'demos/persistence_demo.dart';
+import 'demos/islotes_demo.dart';
 
 void main() => runApp(MyApp());
 
@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/gridview_demo': (context) => GridviewDemo(),
         '/websocket_demo': (context) => WebSocketDemo(),
         '/persistence_demo': (context) => SharedPreferencesDemo(),
+        '/http_photo_demo': (context) => HTTPPhotos(),
       },
       // home: Home(),// P 因为上面设置了‘/’页面，所以这里不再需要
     );
@@ -102,6 +103,9 @@ class Home extends StatelessWidget {
             ListTile(
                 title: Text("HTTP"),
                 onTap: () => Navigator.of(context).pushNamed('/http_demo')),
+            ListTile(
+                title: Text("HTTP Photos"),
+                onTap: () => Navigator.of(context).pushNamed('/http_photo_demo')),
             ListTile(
                 title: Text("WebSocket"),
                 onTap: () =>

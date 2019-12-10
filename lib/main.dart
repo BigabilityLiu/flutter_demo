@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'demos/list_demo.dart';
 import 'demos/form_demo.dart';
@@ -15,6 +16,7 @@ import 'demos/tabController_demo.dart';
 import 'demos/gridview_demo.dart';
 import 'demos/custom_scrollview_demo.dart';
 import 'demos/websocket_demo.dart';
+import 'demos/persistence_demo.dart';
 
 void main() => runApp(MyApp());
 
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
         '/tab_demo': (context) => TabBarDemo(),
         '/gridview_demo': (context) => GridviewDemo(),
         '/websocket_demo': (context) => WebSocketDemo(),
+        '/persistence_demo': (context) => SharedPreferencesDemo(),
       },
       // home: Home(),// P 因为上面设置了‘/’页面，所以这里不再需要
     );
@@ -103,6 +106,10 @@ class Home extends StatelessWidget {
                 title: Text("WebSocket"),
                 onTap: () =>
                     Navigator.of(context).pushNamed('/websocket_demo')),
+            ListTile(
+                title: Text("Persistence"),
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/persistence_demo')),
           ],
         ),
       ),

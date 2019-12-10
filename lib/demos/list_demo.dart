@@ -1,6 +1,7 @@
-import 'package:english_words/english_words.dart' as prefix0;
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+
 
 class RandomWords extends StatefulWidget {
   @override
@@ -17,7 +18,9 @@ class RandomWordsState extends State<RandomWords> {
     final result = await Navigator.of(context).push(
       new MaterialPageRoute(
         // P 跳转到下一个页面，并传值
-        builder: (BuildContext context) => SavedRandomWords(saved: _saved,), 
+        builder: (BuildContext context) => SavedRandomWords(
+          saved: _saved,
+        ),
       ),
     );
     if (result != null) {
@@ -144,13 +147,11 @@ class SavedRandomWords extends StatelessWidget {
       return new ListTile(
         title: new Text(pair.asPascalCase, style: TextStyle(fontSize: 18.0)),
         onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => SuggestionDetail(),
-              // P 跳转时，填入需要传入的值
-              // settings: RouteSettings(arguments: pair),
-            )
-          );
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => SuggestionDetail(),
+            // P 跳转时，填入需要传入的值
+            // settings: RouteSettings(arguments: pair),
+          ));
         },
       );
     });
@@ -178,8 +179,19 @@ class SuggestionDetail extends StatelessWidget {
     // P 使用setting方法接受值, 注意：不是每次跳到此页面时都会有值，所以在使用时要判断
     final WordPair wordPair = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      appBar: AppBar(title: Text('${wordPair != null ? wordPair.asPascalCase : ''}')),
-      body: Center(child: Text('Suggestion Detail', style: TextStyle(fontSize: 32),),),
+      appBar: AppBar(
+          title: Text('${wordPair != null ? wordPair.asPascalCase : ''}')),
+      body: Builder(
+        builder: (context) => Center(
+            child: RaisedButton(
+          child: Text('回到主页'),
+          onPressed: () {
+            // P 回到主页的方法
+            Navigator.of(context).popUntil(ModalRoute.withName('/'));
+            // Navigator.of(context).pushNamed('/');
+          },
+        )),
+      ),
     );
   }
 }

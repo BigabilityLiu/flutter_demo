@@ -30,7 +30,7 @@ class _MyFormState extends State<MyForm> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Retrieve Text Inputa'),
+        title: Text('Form '),
       ),
       body: Builder(
         builder: (BuildContext context) => Padding(

@@ -10,7 +10,7 @@ class RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final _saved = new Set<WordPair>();
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  
+
   _pushSaved(BuildContext context) async {
     final result = await Navigator.of(context).push(
       new MaterialPageRoute(
@@ -22,22 +22,34 @@ class RandomWordsState extends State<RandomWords> {
           });
           final List<Widget> divided =
               ListTile.divideTiles(tiles: tiles, context: context).toList();
-          return new Scaffold(
-            appBar: new AppBar(
-              title: const Text('Saved Suggestions'),
-              actions: <Widget>[
-                new IconButton(icon: const Icon(Icons.list), onPressed: (){
-                  print('回传信息成功');
-                  Navigator.of(context).pop('回传信息成功');
-                })
-              ],
+          return WillPopScope(
+            onWillPop: () async {
+              Navigator.of(context).pop('一共收藏了${divided.length}条信息');
+              return false;
+            },
+            child: new Scaffold(
+              appBar: new AppBar(
+                title: const Text('Saved Suggestions'),
+              ),
+              body: new ListView(children: divided),
             ),
-            body: new ListView(children: divided),
           );
         },
       ),
     );
-    Scaffold.of(context)..removeCurrentSnackBar()..showSnackBar(SnackBar(content: Text('$result'),));
+    if (result != null) {
+      Scaffold.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text('$result'),
+        ));
+    } else {
+      Scaffold.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text('没有任何回传信息'),
+        ));
+    }
   }
 //  int getLength() => _suggestions.length;
 
@@ -62,7 +74,9 @@ class RandomWordsState extends State<RandomWords> {
     final bool alreadySaved = _saved.contains(pair);
     return Dismissible(
       key: Key(pair.asString),
-      background: Container(color: Colors.red,),
+      background: Container(
+        color: Colors.red,
+      ),
       onDismissed: (direction) {
         setState(() {
           _suggestions.removeAt(index);
@@ -92,7 +106,6 @@ class RandomWordsState extends State<RandomWords> {
               _saved.add(pair);
             }
           });
-          Scaffold.of(context).removeCurrentSnackBar();
           final snackBar = SnackBar(
             content: Text('${alreadySaved ? "移除" : "保存"}成功'),
             action: SnackBarAction(
@@ -108,7 +121,9 @@ class RandomWordsState extends State<RandomWords> {
               },
             ),
           );
-          Scaffold.of(context).showSnackBar(snackBar);
+          Scaffold.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(snackBar);
         },
       ),
     );
@@ -120,9 +135,13 @@ class RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: Text('Startup Name Generator'),
         actions: <Widget>[
-          new IconButton(icon: const Icon(Icons.list), onPressed: (){
-            _pushSaved(context);
-          })
+          Builder(
+            builder: (ctx) => new IconButton(
+                icon: const Icon(Icons.list),
+                onPressed: () {
+                  _pushSaved(ctx);
+                }),
+          )
         ],
       ),
       body: Builder(

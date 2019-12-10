@@ -57,7 +57,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Sample App"),
+          title: Text("HTTP App"),
         ),
         body: getBody());
   }

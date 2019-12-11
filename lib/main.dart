@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 
 import 'demos/list_demo.dart';
 import 'demos/form_demo.dart';
@@ -17,8 +18,14 @@ import 'demos/custom_scrollview_demo.dart';
 import 'demos/websocket_demo.dart';
 import 'demos/persistence_demo.dart';
 import 'demos/islotes_demo.dart';
+import 'demos/camera_demo.dart';
+import 'demos/video_demo.dart';
 
-void main() => runApp(MyApp());
+List<CameraDescription> cameras;
+Future<void> main() async {
+  cameras = await availableCameras();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -53,8 +60,10 @@ class MyApp extends StatelessWidget {
         '/tab_demo': (context) => TabBarDemo(),
         '/gridview_demo': (context) => GridviewDemo(),
         '/websocket_demo': (context) => WebSocketDemo(),
-        '/persistence_demo': (context) => SharedPreferencesDemo(),
+        '/persistence_demo': (context) => PersistenceDemo(),
         '/http_photo_demo': (context) => HTTPPhotos(),
+        '/camera_demo': (context) => TakePictureScreen(camera: cameras.first),
+        '/video_demo': (context) => VideoPlayerScreen(),
       },
       // home: Home(),// P 因为上面设置了‘/’页面，所以这里不再需要
     );
@@ -105,7 +114,8 @@ class Home extends StatelessWidget {
                 onTap: () => Navigator.of(context).pushNamed('/http_demo')),
             ListTile(
                 title: Text("HTTP Photos"),
-                onTap: () => Navigator.of(context).pushNamed('/http_photo_demo')),
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/http_photo_demo')),
             ListTile(
                 title: Text("WebSocket"),
                 onTap: () =>
@@ -114,6 +124,14 @@ class Home extends StatelessWidget {
                 title: Text("Persistence"),
                 onTap: () =>
                     Navigator.of(context).pushNamed('/persistence_demo')),
+            ListTile(
+              title: Text("Camera"),
+              onTap: () => Navigator.of(context).pushNamed('/camera_demo'),
+            ),
+            ListTile(
+              title: Text("Video"),
+              onTap: () => Navigator.of(context).pushNamed('/video_demo'),
+            ),
           ],
         ),
       ),

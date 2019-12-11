@@ -51,5 +51,4 @@ class _BatteryPageState extends State<BatteryPage>{
       ),
     );
   }
-
 }

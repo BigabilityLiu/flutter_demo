@@ -29,6 +29,10 @@ dependencies:
   cached_network_image: ^1.1.3
   web_socket_channel: ^1.1.0
   shared_preferences: ^0.5.4+8
+  path_provider:
+  path:
+  camera:
+  video_player:
 
 dev_dependencies:
   flutter_test:

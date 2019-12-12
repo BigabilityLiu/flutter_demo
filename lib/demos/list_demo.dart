@@ -76,6 +76,7 @@ class RandomWordsState extends State<RandomWords> {
         title: Text(
           pair.asPascalCase,
           style: _biggerFont,
+          key: Key('items_$index'),
         ),
         trailing: Image.asset(alreadySaved
             ? 'assets/images/turnon.png'

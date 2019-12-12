@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
@@ -65,6 +66,19 @@ class MyApp extends StatelessWidget {
         '/camera_demo': (context) => TakePictureScreen(camera: cameras.first),
         '/video_demo': (context) => VideoPlayerScreen(),
       },
+      onUnknownRoute: (routesSetting) {
+
+        return MaterialPageRoute(
+            builder: (context) {
+              return Scaffold(
+                appBar: AppBar(title: Text('Unknow Page'),),
+                body: Center(child: Text('you have enter a page does not exist .\nThe message is ${routesSetting.arguments}'),),
+              );
+            }
+            // P 跳转时，填入需要传入的值
+            // settings: RouteSettings(arguments: pair),
+          );
+      },
       // home: Home(),// P 因为上面设置了‘/’页面，所以这里不再需要
     );
   }
@@ -80,6 +94,9 @@ class Home extends StatelessWidget {
         ),
         body: ListView(
           children: <Widget>[
+            ListTile(
+                title: Text("Unknow Page"),
+                onTap: () => Navigator.of(context).pushNamed('/unknow_page', arguments: "Hello world")),
             ListTile(
                 title: Text("List"),
                 onTap: () => Navigator.of(context).pushNamed('/list_demo')),
